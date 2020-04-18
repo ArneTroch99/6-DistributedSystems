@@ -32,7 +32,10 @@ class FileServer{
                 try{
                         response = con.getResponseCode();
                 }catch (IOException e){e.printStackTrace();}
+		
+		return response;
 	}
+	
 	public int joinNamingServer(){
 		
 		String request = address + "/addNode";
@@ -47,7 +50,7 @@ class FileServer{
 		return httpQuery(request, "PUT");
 	}	
 	
-	public int removeNode(nodeAddress){
+	public int removeNode(String nodeAddress){
 		String request = address + "deleteNode?name=" + nodeAddress;
 		
 		return httpQuery(request, "DELETE");
