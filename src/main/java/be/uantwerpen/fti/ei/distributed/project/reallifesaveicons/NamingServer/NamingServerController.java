@@ -1,11 +1,12 @@
 package be.uantwerpen.fti.ei.distributed.project.reallifesaveicons.NamingServer;
 
-import be.uantwerpen.fti.ei.distributed.project.reallifesaveicons.StringResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
@@ -13,24 +14,36 @@ public class NamingServerController {
 
     private NamingServerService namingServerService;
 
+    @PostConstruct
+    public void initialize(){
+        namingServerService = new NamingServerServiceImpl();
+        this.namingServerService.init("map");
+    }
+
 
     @RequestMapping(value = "/addNode", method = RequestMethod.PUT)
-    public StringResponse addNode(@RequestParam(value = "name", required = false, defaultValue = "") String fileName,
+    public void addNode(@RequestParam(value = "name", required = false, defaultValue = "") String ipAddress,
             HttpServletRequest request){
-        this.namingServerService.addNode(request.getRemoteAddr());
-        return null;
+        if (ipAddress.equals("")){
+            this.namingServerService.addNode(request.getRemoteAddr());
+        } else {
+            this.namingServerService.addNode(ipAddress);
+        }
     }
 
     @RequestMapping(value = "/deleteNode", method = RequestMethod.DELETE)
-    public StringResponse deleteNode(@RequestParam(value = "name") String ipAddress){
-        // verwijderen node
-        return null;
+    public void deleteNode(@RequestParam(value = "name", required = false, defaultValue = "") String ipAddress,
+                                     HttpServletRequest request){
+        if (ipAddress.equals("")){
+            this.namingServerService.deleteNode(request.getRemoteAddr());
+        } else {
+            this.namingServerService.deleteNode(ipAddress);
+        }
     }
 
-    @RequestMapping(value = "/requestFileLocation", method = RequestMethod.GET)
+    @RequestMapping(value = "/fileLocation", method = RequestMethod.GET)
     public String requestFileLocation(@RequestParam(value = "filename") String fileName){
-        // fileLocation
-        return null;
+        return this.namingServerService.getFileLocation(fileName);
     }
 
 }

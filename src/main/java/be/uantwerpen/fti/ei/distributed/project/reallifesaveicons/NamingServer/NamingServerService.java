@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface NamingServerService {
 
-    void init();
+    void init(String mapFile);
 
     void addNode(String name);
 
