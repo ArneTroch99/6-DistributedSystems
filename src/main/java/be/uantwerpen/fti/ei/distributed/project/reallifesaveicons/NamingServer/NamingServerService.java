@@ -7,9 +7,9 @@ public interface NamingServerService {
 
     void init(String mapFile);
 
-    void addNode(String name);
+    boolean addNode(String name);
 
-    void deleteNode(String name);
+    boolean deleteNode(String name);
 
     String getFileLocation(String fileName);
 }
