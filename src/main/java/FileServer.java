@@ -51,7 +51,7 @@ class FileServer{
 	}	
 	
 	public int removeNode(String nodeAddress){
-		String request = address + "deleteNode?name=" + nodeAddress;
+		String request = address + "/deleteNode?name=" + nodeAddress;
 		
 		return httpQuery(request, "DELETE");
 	}
