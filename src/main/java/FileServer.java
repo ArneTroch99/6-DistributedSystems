@@ -8,7 +8,7 @@ class FileServer{
 	private String address;
 
 	public FileServer(String namingServerIP){
-		this.address = address;
+		this.address = namingServerIP;
 	}
 
 	
