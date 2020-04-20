@@ -48,8 +48,10 @@ public class NamingServerServiceImpl implements NamingServerService {
         Set<Integer> keys = map.keySet();
         int id = hash(name);
         if (keys.contains(id)){
+            System.out.println("Node already exists!");
             return false;
         } else {
+            System.out.println("Adding new node to network: " + hash(name) + " : " + name);
             map.put(hash(name), name);
             save();
             return true;
@@ -61,8 +63,10 @@ public class NamingServerServiceImpl implements NamingServerService {
         Set<Integer> keys = map.keySet();
         int id = hash(name);
         if (!keys.contains(id)) {
+            System.out.println("Node is not in map!");
             return false;
         } else {
+            System.out.println("Deleting node from network: " + hash(name) + " : " + name);
             map.remove(hash(name));
             save();
             return true;
