@@ -38,7 +38,7 @@ class Client{
     				content.append(inputLine);
 			}
 		
-			if (con.getResponseCode() == 200){
+			if (con.getResponseCode() != 200){
 				System.out.println("Could not resolve filename");
 				return false;
 			}
