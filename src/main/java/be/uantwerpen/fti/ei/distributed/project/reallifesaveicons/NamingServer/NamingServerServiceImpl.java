@@ -26,11 +26,11 @@ public class NamingServerServiceImpl implements NamingServerService {
     @Autowired
     public NamingServerServiceImpl(HTTPClient httpClient) {
 
-        //DEBUG!!!!!
+        /*//DEBUG!!!!!
         map.put(10, "192.168.0.1");
         map.put(20, "192.168.0.2");
         map.put(30, "192.168.0.3");
-        // END DEBUG
+        // END DEBUG*/
 
         this.httpClient = httpClient;
     }
