@@ -64,10 +64,10 @@ public class MulticastListener {
 
             while (this.isRunning) {
 
-                logger.info("Loop entered");
+                logger.debug("Loop entered");
                 s.receive(recv);
                 String input = new String(recv.getData());
-                logger.info("Received: " + input);
+                logger.debug("Received: " + input);
                 Thread t = new Thread(() -> namingServerService.addNode(input));
                 t.start();
 

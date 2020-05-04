@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 
 @RestController
 public class NamingServerController {
@@ -20,7 +21,34 @@ public class NamingServerController {
         this.namingServerService = namingServerService;
     }
 
-    @RequestMapping(value = "/deleteNode", method = RequestMethod.DELETE)
+    //Get methods
+    @RequestMapping (value = "/nodeip", method = RequestMethod.GET)
+    public ResponseEntity<String> nodeIP(@RequestParam(value = "id") String id){
+
+        String node = namingServerService.getNode(id);
+
+        ResponseEntity r = (node != null) ? new ResponseEntity(node, HttpStatus.OK) : new ResponseEntity(HttpStatus.NOT_FOUND);
+        return r;
+
+    }
+
+    @RequestMapping(value = "/fileLocation", method = RequestMethod.GET)
+    public String requestFileLocation(@RequestParam(value = "filename") String fileName) {
+        return this.namingServerService.getFileLocation(fileName);
+    }
+
+    @RequestMapping (value = "/leave", method = RequestMethod.POST)
+    public ResponseEntity<String> nodeLeave(@RequestParam(value = "id") String nodeId, @RequestParam(value = "lower") String lowerID,
+                                                    @RequestParam(value = "upper") String upperID){
+
+        ArrayList<String> neighbours = namingServerService.leave(nodeId, lowerID, upperID);
+
+        ResponseEntity r = (neighbours != null) ? new ResponseEntity(neighbours, HttpStatus.OK) : new ResponseEntity(HttpStatus.NOT_FOUND);
+        return r;
+    }
+
+
+    /*@RequestMapping(value = "/deleteNode", method = RequestMethod.DELETE)
     public ResponseEntity deleteNode(@RequestParam(value = "ip", required = false, defaultValue = "") String ipAddress,
                                      HttpServletRequest request) {
         boolean worked;
@@ -34,12 +62,8 @@ public class NamingServerController {
         } else {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("A node with that IP does not exist!");
         }
-    }
+    }*/
 
-    @RequestMapping(value = "/fileLocation", method = RequestMethod.GET)
-    public String requestFileLocation(@RequestParam(value = "filename") String fileName) {
-        return this.namingServerService.getFileLocation(fileName);
-    }
 
 
     /*@RequestMapping(value = "/shutDown", method = RequestMethod.DELETE)

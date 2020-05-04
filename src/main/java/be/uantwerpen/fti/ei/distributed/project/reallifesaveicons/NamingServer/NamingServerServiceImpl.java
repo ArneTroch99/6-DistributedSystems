@@ -11,10 +11,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 @Component
@@ -28,22 +25,43 @@ public class NamingServerServiceImpl implements NamingServerService {
 
     @Autowired
     public NamingServerServiceImpl(HTTPClient httpClient) {
+
+        //DEBUG!!!!!
+        map.put(10, "192.168.0.1");
+        map.put(20, "192.168.0.2");
+        map.put(30, "192.168.0.3");
+        // END DEBUG
+
         this.httpClient = httpClient;
     }
 
 
     @Override
-    public boolean deleteNode(String name) {
+    public String getNode(String id) {
+        Integer idInt = Integer.parseInt(id);
+        return map.get(idInt);
+
+    }
+
+    @Override
+    public ArrayList<String> leave(String nodeID, String lowerID, String upperID) {
+
         Set<Integer> keys = map.keySet();
-        int id = hash(name);
-        if (!keys.contains(id)) {
-            System.out.println("Node is not in map!");
-            return false;
-        } else {
-            System.out.println("Deleting node from network: " + hash(name) + " : " + name);
-            map.remove(hash(name));
-            return true;
+        Integer[] ids = {Integer.parseInt(nodeID), Integer.parseInt(lowerID), Integer.parseInt(upperID)};
+
+        //The check if all the nodes exist
+        for (int i = 0; i < 3; i++) {
+            if (!keys.contains(ids[i])) {
+                logger.debug("At least one node is not in the map!");
+                return null;
+            }
         }
+        ArrayList<String> neighbours = new ArrayList<>(Arrays.asList(map.get(ids[1]),map.get(ids[2])));
+
+        logger.info("Deleting node from network: " + map.get(ids[0]));
+        map.remove(ids[0]);
+
+        return neighbours;
     }
 
     @Override
@@ -80,7 +98,7 @@ public class NamingServerServiceImpl implements NamingServerService {
 
         int id = hash(ip);
         if (keys.contains(id)) {
-            logger.info("Node already exists!");
+            logger.info("Node" + ip + " already exists!");
             return false;
         } else {
             logger.info("Adding new node to network: " + hash(ip) + " : " + ip);
@@ -93,7 +111,7 @@ public class NamingServerServiceImpl implements NamingServerService {
             } catch (UnknownHostException e) {
                 logger.info(e.toString());
             } catch (Exception e) {
-                logger.info(e.toString());
+                logger.debug(e.toString());
             }
             return true;
         }
