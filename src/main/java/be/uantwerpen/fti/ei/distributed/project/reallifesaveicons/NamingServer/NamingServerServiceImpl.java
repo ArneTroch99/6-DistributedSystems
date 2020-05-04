@@ -1,12 +1,10 @@
 package be.uantwerpen.fti.ei.distributed.project.reallifesaveicons.NamingServer;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -17,25 +15,11 @@ import java.util.Set;
 
 public class NamingServerServiceImpl implements NamingServerService{
 
-    private File file;
-    private ObjectMapper mapper = new ObjectMapper();
-    private Map<Integer, String> map;
 
+    static private Map<Integer, String> map = new HashMap<>();
     //Logger
     private static final Logger logger = LoggerFactory.getLogger(NamingServerServiceImpl.class);
 
-    @Override
-    public void init(String mapFile) {
-        map = new HashMap<>();
-    }
-
-    private void save() {
-        try {
-            mapper.writeValue(file, map);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public boolean deleteNode(String name) {
@@ -47,7 +31,6 @@ public class NamingServerServiceImpl implements NamingServerService{
         } else {
             System.out.println("Deleting node from network: " + hash(name) + " : " + name);
             map.remove(hash(name));
-            save();
             return true;
         }
     }
@@ -70,6 +53,7 @@ public class NamingServerServiceImpl implements NamingServerService{
     }
 
     //This method is called by the multicastListener, not the REST controller!
+    @Override
     public boolean addNode(String ip) {
 
         logger.info("AddNode method entered");
@@ -88,7 +72,6 @@ public class NamingServerServiceImpl implements NamingServerService{
             synchronized (this){
                 map.put(hash(ip), ip);
             }
-            save();
             return true;
         }
     }

@@ -8,10 +8,10 @@ import java.net.*;
 
 public class MulticastListener implements Runnable {
 
-    private String groupAddress;
-    private int port;
+    private final String groupAddress;
+    private final int port;
     private boolean isRunning = true;
-    private NamingServerService namingServerService;
+    private final NamingServerService namingServerService;
     private MulticastSocket s = null;
 
     //Logger
@@ -56,8 +56,9 @@ public class MulticastListener implements Runnable {
 
                 logger.info("Loop entered");
                 s.receive(recv);
-                logger.info("Received: "+recv.getData().toString());
-                Thread t = new Thread(() -> namingServerService.addNode(recv.getData().toString()));
+                String input = new String(recv.getData());
+                logger.info("Received: "+input);
+                Thread t = new Thread(() -> namingServerService.addNode(input));
                 t.start();
 
             }

@@ -18,7 +18,6 @@ public class NamingServerController {
     @PostConstruct
     public void initialize(){
         namingServerService = new NamingServerServiceImpl();
-        this.namingServerService.init("map.json");
     }
 
     @RequestMapping(value = "/deleteNode", method = RequestMethod.DELETE)
