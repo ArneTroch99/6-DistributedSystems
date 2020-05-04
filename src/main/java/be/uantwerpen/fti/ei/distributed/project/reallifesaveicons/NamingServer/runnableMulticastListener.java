@@ -30,7 +30,7 @@ public class runnableMulticastListener implements Runnable {
         try {
             s.receive(recv);
             s.disconnect();
-            logger.debug("Packet received");
+            logger.info("Packet received");
 
             String input = new String(recv.getData());
             namingServer.addNode(input);

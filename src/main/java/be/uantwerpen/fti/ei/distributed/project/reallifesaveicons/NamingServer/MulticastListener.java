@@ -66,7 +66,7 @@ public class MulticastListener implements Runnable {
                 //Waits for new connection
                 while (!s.isConnected()) ;
 
-                logger.debug("New connection, total: " + ++connectionAmount);
+                logger.info("New connection, total: " + ++connectionAmount);
                 runningThreads++;
 
                 new Thread(
