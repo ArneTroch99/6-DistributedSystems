@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class runnableMulticastListener implements Runnable {
 
@@ -26,7 +27,11 @@ public class runnableMulticastListener implements Runnable {
     @Override
     public void run() {
 
-        logger.info(InetAddress.getLocalHost().getHostAddress());
+        try {
+            logger.info(InetAddress.getLocalHost().getHostAddress().toString());
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
 
         byte[] buf = new byte[32768];
         DatagramPacket recv = new DatagramPacket(buf, buf.length);
