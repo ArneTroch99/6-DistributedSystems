@@ -63,6 +63,7 @@ public class MulticastListener implements Runnable {
                 MulticastSocket s = new MulticastSocket(port);
                 s.joinGroup(group);
 
+                logger.info("Socket is bound");
                 //Waits for new connection
                 while (!s.isConnected()) ;
 
