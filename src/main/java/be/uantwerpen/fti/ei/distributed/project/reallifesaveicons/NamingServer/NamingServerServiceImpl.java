@@ -87,7 +87,7 @@ public class NamingServerServiceImpl implements NamingServerService {
             synchronized (this) {
                 map.put(hash(ip), ip);
                 try {
-                    httpClient.putHTTP(ip, "/bootstrap?namingip=" + InetAddress.getLocalHost().toString());
+                    httpClient.putHTTP(ip, "/bootstrap?namingip=" + InetAddress.getLocalHost().getHostAddress());
                 } catch (UnknownHostException e) {
                     logger.info(e.toString());
                 }
