@@ -7,7 +7,7 @@ public interface NamingServerService {
 
     void init(String mapFile);
 
-    boolean addNode(String name);
+    boolean addNode(String ip);
 
     boolean deleteNode(String name);
 

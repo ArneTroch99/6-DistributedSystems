@@ -21,25 +21,8 @@ public class NamingServerController {
         this.namingServerService.init("map.json");
     }
 
-
-    @RequestMapping(value = "/addNode", method = RequestMethod.PUT)
-    public ResponseEntity addNode(@RequestParam(value = "name", required = false, defaultValue = "") String ipAddress,
-                                  HttpServletRequest request){
-        boolean worked;
-        if (ipAddress.equals("")){
-            worked = this.namingServerService.addNode(request.getRemoteAddr());
-        } else {
-            worked = this.namingServerService.addNode(ipAddress);
-        }
-        if (worked){
-            return new ResponseEntity(HttpStatus.OK);
-        } else{
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("A node with that IP already exists!");
-        }
-    }
-
     @RequestMapping(value = "/deleteNode", method = RequestMethod.DELETE)
-    public ResponseEntity deleteNode(@RequestParam(value = "name", required = false, defaultValue = "") String ipAddress,
+    public ResponseEntity deleteNode(@RequestParam(value = "ip", required = false, defaultValue = "") String ipAddress,
                                      HttpServletRequest request){
         boolean worked;
         if (ipAddress.equals("")){
@@ -58,5 +41,8 @@ public class NamingServerController {
     public String requestFileLocation(@RequestParam(value = "filename") String fileName){
         return this.namingServerService.getFileLocation(fileName);
     }
+
+    /*@RequestMapping(value = "/shutDown", method = RequestMethod.DELETE)
+    public void shutDown(@RequestParam value =  "ip", required =)*/
 
 }
