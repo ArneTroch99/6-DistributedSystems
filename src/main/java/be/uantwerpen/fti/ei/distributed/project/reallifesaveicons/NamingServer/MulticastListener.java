@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.net.UnknownHostException;
 
 public class MulticastListener implements Runnable {
 
@@ -56,14 +57,14 @@ public class MulticastListener implements Runnable {
         }
         logger.info("Multicast listener running");
 
-        openSocket();
-        while (this.isRunning()) {
-            try {
-                InetAddress group = InetAddress.getByName(groupAddress);
-                MulticastSocket s = new MulticastSocket(port);
-                s.joinGroup(group);
+        try {
+            InetAddress group = InetAddress.getByName(groupAddress);
+            MulticastSocket s = new MulticastSocket(port);
+            s.joinGroup(group);
+            openSocket();
+            logger.info("Socket is opened");
 
-                logger.info("Socket is bound");
+            while (this.isRunning()) {
                 //Waits for new connection
                 while (!s.isConnected()) ;
 
@@ -75,12 +76,16 @@ public class MulticastListener implements Runnable {
                                 s, namingServer)
                 ).start();
 
-            } catch (Exception e) {
+            } catch(Exception e){
                 logger.info(e.toString());
                 isRunning = false;
             }
 
             this.stop();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
