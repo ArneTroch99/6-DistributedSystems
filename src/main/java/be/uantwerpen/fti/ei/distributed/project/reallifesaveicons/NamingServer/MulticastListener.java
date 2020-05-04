@@ -75,10 +75,6 @@ public class MulticastListener implements Runnable {
                         new runnableMulticastListener(
                                 s, namingServer)
                 ).start();
-
-            } catch(Exception e){
-                logger.info(e.toString());
-                isRunning = false;
             }
 
             this.stop();
