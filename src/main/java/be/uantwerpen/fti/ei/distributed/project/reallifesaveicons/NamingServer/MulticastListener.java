@@ -6,20 +6,12 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.*;
 
-import static sun.jvm.hotspot.runtime.PerfMemory.start;
-
 public class MulticastListener implements Runnable {
 
     private String groupAddress;
     private int port;
     private boolean isRunning = true;
     private NamingServerService namingServerService;
-
-    //Multithread stuff
-    private Thread runningThread = null;
-    private int connectionAmount = 0;
-    public int runningThreads = 0;
-
     private MulticastSocket s = null;
 
     //Logger
@@ -48,9 +40,6 @@ public class MulticastListener implements Runnable {
     @Override
     public void run() {
 
-        synchronized (this) {
-            this.runningThread = Thread.currentThread();
-        }
         logger.info("Multicast listener running");
 
         try {
@@ -64,7 +53,7 @@ public class MulticastListener implements Runnable {
             DatagramPacket recv = new DatagramPacket(buf, buf.length);
 
             while (this.isRunning) {
-                
+
                 s.receive(recv);
 
                 Thread t = new Thread(() -> namingServerService.addNode(recv.getData().toString()));
