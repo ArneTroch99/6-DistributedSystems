@@ -58,14 +58,14 @@ public class MulticastListener implements Runnable {
         logger.info("Multicast listener running");
 
         try {
-            InetAddress group = InetAddress.getByName(groupAddress);
-            MulticastSocket s = new MulticastSocket(port);
-            s.joinGroup(group);
             openSocket();
+            InetAddress group = InetAddress.getByName(groupAddress);
+            s.joinGroup(group);
             logger.info("Socket is opened");
 
             while (this.isRunning()) {
                 //Waits for new connection
+
                 while (!s.isConnected()) ;
 
                 logger.info("New connection, total: " + ++connectionAmount);
