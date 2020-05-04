@@ -4,17 +4,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.MulticastSocket;
-import java.net.UnknownHostException;
+import java.net.*;
+
+import static sun.jvm.hotspot.runtime.PerfMemory.start;
 
 public class MulticastListener implements Runnable {
 
     private String groupAddress;
     private int port;
     private boolean isRunning = true;
-    private NamingServerService namingServer;
+    private NamingServerService namingServerService;
 
     //Multithread stuff
     private Thread runningThread = null;
@@ -26,19 +25,16 @@ public class MulticastListener implements Runnable {
     //Logger
     private static final Logger logger = LoggerFactory.getLogger(NamingServerServiceImpl.class);
 
-    public MulticastListener(String groupAddress, int port, NamingServerService namingServer) {
+    public MulticastListener(String groupAddress, int port, NamingServerService namingServerService) {
         this.groupAddress = groupAddress;
         this.port = port;
-        this.namingServer = namingServer;
+        this.namingServerService = namingServerService;
     }
 
-    private synchronized boolean isRunning() {
-        return this.isRunning;
-    }
-
-    public synchronized void stop() {
+    public void stop() {
         this.isRunning = false;
         this.s.close();
+        logger.info("Multicast listener stopped!");
     }
 
     private void openSocket() {
@@ -63,26 +59,24 @@ public class MulticastListener implements Runnable {
             s.joinGroup(group);
             logger.info("Socket is opened");
 
-            while (this.isRunning()) {
-                //Waits for new connection
 
-                while (!s.isConnected()) ;
+            byte[] buf = new byte[32768];
+            DatagramPacket recv = new DatagramPacket(buf, buf.length);
 
-                logger.info("New connection, total: " + ++connectionAmount);
-                runningThreads++;
+            while (this.isRunning) {
+                
+                s.receive(recv);
 
-                new Thread(
-                        new runnableMulticastListener(
-                                s, namingServer)
-                ).start();
+                Thread t = new Thread(() -> namingServerService.addNode(recv.getData().toString()));
+                t.start();
+
             }
-
-            this.stop();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            isRunning = false;
+            logger.info(e.toString());
         }
+
+        this.stop();
     }
 
 

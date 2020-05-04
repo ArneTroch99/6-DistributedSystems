@@ -5,12 +5,12 @@ import java.math.BigInteger;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.TreeMap;
 
 public class NamingServer {
-
 
 
     private TreeMap<Integer, String> NodeMap = new TreeMap<Integer, String>();
@@ -21,30 +21,32 @@ public class NamingServer {
     private String nameHost;
 
     public NamingServer(String groupAddress, int port) {
-                this.groupAddress = groupAddress;
-                this.port = port;
-                this.setHost();
-            }
+        this.groupAddress = groupAddress;
+        this.port = port;
+        this.setHost();
+    }
 
-            public void setHost() {
-                try {
-                    InetAddress host = InetAddress.getLocalHost();
+    public void setHost() {
+        try {
+            InetAddress host = InetAddress.getLocalHost();
             ipHost = host.getHostAddress();
             nameHost = host.getHostName();
-            System.out.println("ip: "+ ipHost +"\nName: "+ nameHost);
+            System.out.println("ip: " + ipHost + "\nName: " + nameHost);
 
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
 
-    public void handle(String input){
+    public void handle(String input) {
 
         try {
             String[] data = input.split("%");
             addNode(data[0].trim(), data[1].trim());
             System.out.println("ip: " + data[0] + " Name: " + data[1]);
-        }catch (Exception e){e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -60,7 +62,7 @@ public class NamingServer {
         DatagramSocket ds = new DatagramSocket();
         char firstChar = message.charAt(0);
         String sendMsg = "";
-        switch (firstChar){
+        switch (firstChar) {
             case '$':
                 //String[] data = message.split("#");
                 //ip = data[1].trim();

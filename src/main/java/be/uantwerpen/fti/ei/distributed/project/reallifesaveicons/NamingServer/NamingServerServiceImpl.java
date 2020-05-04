@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class NamingServerServiceImpl implements NamingServerService {
+public class NamingServerServiceImpl implements NamingServerService{
 
     private File file;
     private ObjectMapper mapper = new ObjectMapper();
@@ -70,7 +70,6 @@ public class NamingServerServiceImpl implements NamingServerService {
     }
 
     //This method is called by the multicastListener, not the REST controller!
-    @Override
     public boolean addNode(String ip) {
 
 
