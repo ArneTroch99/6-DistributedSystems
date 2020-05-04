@@ -11,7 +11,7 @@ import java.net.UnknownHostException;
 
 public class runnableMulticastListener implements Runnable {
 
-    DatagramSocket s = null;
+    DatagramSocket s;
     int connectionAmount;
     NamingServerService namingServer;
 
@@ -19,6 +19,11 @@ public class runnableMulticastListener implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(NamingServerServiceImpl.class);
 
     public runnableMulticastListener(DatagramSocket socket, NamingServerService namingServer) {
+        try {
+            System.out.println(InetAddress.getLocalHost().getHostAddress().toString());
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
         this.s = socket;
         this.connectionAmount = connectionAmount;
         this.namingServer = namingServer;

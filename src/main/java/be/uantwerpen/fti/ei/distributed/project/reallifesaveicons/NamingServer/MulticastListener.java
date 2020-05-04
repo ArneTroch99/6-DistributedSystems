@@ -20,7 +20,7 @@ public class MulticastListener implements Runnable {
     private int connectionAmount = 0;
     public int runningThreads = 0;
 
-    private DatagramSocket s = null;
+    private MulticastSocket s = null;
 
     //Logger
     private static final Logger logger = LoggerFactory.getLogger(NamingServerServiceImpl.class);
@@ -42,7 +42,7 @@ public class MulticastListener implements Runnable {
 
     private void openSocket() {
         try {
-            this.s = new DatagramSocket(this.port);
+            this.s = new MulticastSocket(this.port);
         } catch (IOException e) {
             logger.info(s.toString());
         }
