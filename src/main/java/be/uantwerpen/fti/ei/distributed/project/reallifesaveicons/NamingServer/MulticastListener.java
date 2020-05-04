@@ -54,8 +54,9 @@ public class MulticastListener implements Runnable {
 
             while (this.isRunning) {
 
+                logger.info("Loop entered");
                 s.receive(recv);
-
+                logger.info("Received: "+recv.getData().toString());
                 Thread t = new Thread(() -> namingServerService.addNode(recv.getData().toString()));
                 t.start();
 

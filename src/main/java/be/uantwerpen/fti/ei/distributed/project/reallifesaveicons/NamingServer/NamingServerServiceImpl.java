@@ -72,7 +72,7 @@ public class NamingServerServiceImpl implements NamingServerService{
     //This method is called by the multicastListener, not the REST controller!
     public boolean addNode(String ip) {
 
-
+        logger.info("AddNode method entered");
         //Drop everything before "@" to avoid using unwanted data
         ip = ip.trim();
         ip = ip.substring(ip.indexOf("@") + 1);
@@ -81,7 +81,7 @@ public class NamingServerServiceImpl implements NamingServerService{
 
         int id = hash(ip);
         if (keys.contains(id)) {
-            logger.debug("Node already exists!");
+            logger.info("Node already exists!");
             return false;
         } else {
             logger.info("Adding new node to network: " + hash(ip) + " : " + ip);
