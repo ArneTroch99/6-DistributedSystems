@@ -1,5 +1,6 @@
 package be.uantwerpen.fti.ei.distributed.project.reallifesaveicons.NamingServer;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
@@ -15,9 +15,9 @@ public class NamingServerController {
 
     private NamingServerService namingServerService;
 
-    @PostConstruct
-    public void initialize(){
-        namingServerService = new NamingServerServiceImpl();
+    @Autowired
+    public void initialize(NamingServerService namingServerService){
+        this.namingServerService = namingServerService;
     }
 
     @RequestMapping(value = "/deleteNode", method = RequestMethod.DELETE)
@@ -40,6 +40,7 @@ public class NamingServerController {
     public String requestFileLocation(@RequestParam(value = "filename") String fileName){
         return this.namingServerService.getFileLocation(fileName);
     }
+
 
     /*@RequestMapping(value = "/shutDown", method = RequestMethod.DELETE)
     public void shutDown(@RequestParam value =  "ip", required =)*/

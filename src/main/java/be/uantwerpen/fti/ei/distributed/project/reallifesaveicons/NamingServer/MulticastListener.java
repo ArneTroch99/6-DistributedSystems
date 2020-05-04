@@ -2,14 +2,18 @@ package be.uantwerpen.fti.ei.distributed.project.reallifesaveicons.NamingServer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.net.*;
 
-public class MulticastListener implements Runnable {
+@Component
+public class MulticastListener {
 
-    private final String groupAddress;
-    private final int port;
+    private String groupAddress;
+    private int port;
     private boolean isRunning = true;
     private final NamingServerService namingServerService;
     private MulticastSocket s = null;
@@ -17,10 +21,16 @@ public class MulticastListener implements Runnable {
     //Logger
     private static final Logger logger = LoggerFactory.getLogger(NamingServerServiceImpl.class);
 
-    public MulticastListener(String groupAddress, int port, NamingServerService namingServerService) {
-        this.groupAddress = groupAddress;
-        this.port = port;
+    @Autowired
+    public MulticastListener(NamingServerService namingServerService) {
         this.namingServerService = namingServerService;
+    }
+
+    @PostConstruct
+    public void init(){
+        port = 6789;
+        groupAddress = "228.5.6.7";
+        new Thread(this::run).start();
     }
 
     public void stop() {
@@ -37,7 +47,7 @@ public class MulticastListener implements Runnable {
         }
     }
 
-    @Override
+
     public void run() {
 
         logger.info("Multicast listener running");
