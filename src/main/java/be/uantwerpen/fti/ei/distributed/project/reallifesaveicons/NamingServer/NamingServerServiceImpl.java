@@ -18,7 +18,7 @@ import java.util.Set;
 
 
 @Component
-public class NamingServerServiceImpl implements NamingServerService{
+public class NamingServerServiceImpl implements NamingServerService {
 
     private final HTTPClient httpClient;
 
@@ -74,7 +74,7 @@ public class NamingServerServiceImpl implements NamingServerService{
 
         Set<Integer> keys;
 
-        synchronized (this){
+        synchronized (this) {
             keys = map.keySet();
         }
 
@@ -84,10 +84,10 @@ public class NamingServerServiceImpl implements NamingServerService{
             return false;
         } else {
             logger.info("Adding new node to network: " + hash(ip) + " : " + ip);
-            synchronized (this){
+            synchronized (this) {
                 map.put(hash(ip), ip);
                 try {
-                    httpClient.putHTTP(ip, "/bootstrap?"+ InetAddress.getLocalHost());
+                    httpClient.putHTTP(ip, "/bootstrap?" + InetAddress.getLocalHost());
                 } catch (UnknownHostException e) {
                     logger.info(e.toString());
                 }

@@ -16,28 +16,28 @@ public class NamingServerController {
     private NamingServerService namingServerService;
 
     @Autowired
-    public void initialize(NamingServerService namingServerService){
+    public void initialize(NamingServerService namingServerService) {
         this.namingServerService = namingServerService;
     }
 
     @RequestMapping(value = "/deleteNode", method = RequestMethod.DELETE)
     public ResponseEntity deleteNode(@RequestParam(value = "ip", required = false, defaultValue = "") String ipAddress,
-                                     HttpServletRequest request){
+                                     HttpServletRequest request) {
         boolean worked;
-        if (ipAddress.equals("")){
+        if (ipAddress.equals("")) {
             worked = this.namingServerService.deleteNode(request.getRemoteAddr());
         } else {
             worked = this.namingServerService.deleteNode(ipAddress);
         }
-        if (worked){
+        if (worked) {
             return new ResponseEntity(HttpStatus.OK);
-        } else{
+        } else {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("A node with that IP does not exist!");
         }
     }
 
     @RequestMapping(value = "/fileLocation", method = RequestMethod.GET)
-    public String requestFileLocation(@RequestParam(value = "filename") String fileName){
+    public String requestFileLocation(@RequestParam(value = "filename") String fileName) {
         return this.namingServerService.getFileLocation(fileName);
     }
 

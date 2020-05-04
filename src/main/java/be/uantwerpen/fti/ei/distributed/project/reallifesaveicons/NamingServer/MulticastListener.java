@@ -27,7 +27,7 @@ public class MulticastListener {
     }
 
     @PostConstruct
-    public void init(){
+    public void init() {
         port = 6789;
         groupAddress = "228.5.6.7";
         new Thread(this::run).start();
@@ -67,7 +67,7 @@ public class MulticastListener {
                 logger.info("Loop entered");
                 s.receive(recv);
                 String input = new String(recv.getData());
-                logger.info("Received: "+input);
+                logger.info("Received: " + input);
                 Thread t = new Thread(() -> namingServerService.addNode(input));
                 t.start();
 

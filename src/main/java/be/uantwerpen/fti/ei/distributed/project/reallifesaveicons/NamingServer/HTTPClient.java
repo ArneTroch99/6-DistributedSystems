@@ -9,12 +9,12 @@ public class HTTPClient {
 
     private final RestTemplate restTemplate;
 
-    public HTTPClient(RestTemplateBuilder restTemplateBuilder){
+    public HTTPClient(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    public void putHTTP(String ip, String data){
-        String url = "http://"+ip+":8081/"+data;
+    public void putHTTP(String ip, String data) {
+        String url = "http://" + ip + ":8081/" + data;
         restTemplate.put(url, String.class);
     }
 }
