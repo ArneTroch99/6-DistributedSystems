@@ -84,13 +84,16 @@ public class NamingServerServiceImpl implements NamingServerService {
             return false;
         } else {
             logger.info("Adding new node to network: " + hash(ip) + " : " + ip);
-            synchronized (this) {
-                map.put(hash(ip), ip);
-                try {
-                    httpClient.putHTTP(ip, "/bootstrap?namingip=" + InetAddress.getLocalHost().getHostAddress());
-                } catch (UnknownHostException e) {
-                    logger.info(e.toString());
+
+            try {
+                httpClient.putHTTP(ip, "/bootstrap?namingip=" + InetAddress.getLocalHost().getHostAddress());
+                synchronized (this) {
+                    map.put(hash(ip), ip);
                 }
+            } catch (UnknownHostException e) {
+                logger.info(e.toString());
+            } catch (Exception e) {
+                logger.info(e.toString());
             }
             return true;
         }

@@ -13,9 +13,8 @@ public class HTTPClient {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    public boolean putHTTP(String ip, String data) {
+    public void putHTTP(String ip, String data) throws Exception{
         String url = "http://" + ip + ":8081/" + data;
         restTemplate.put(url, String.class);
-        restTemplate.
     }
 }
