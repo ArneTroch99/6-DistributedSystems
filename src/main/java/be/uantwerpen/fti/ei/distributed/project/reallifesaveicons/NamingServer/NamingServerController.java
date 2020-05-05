@@ -27,7 +27,7 @@ public class NamingServerController {
 
         String node = namingServerService.getNode(id);
 
-        ResponseEntity r = (node != null) ? new ResponseEntity(node, HttpStatus.OK) : new ResponseEntity(HttpStatus.NOT_FOUND);
+        ResponseEntity r = (node != null) ? new ResponseEntity(node, HttpStatus.OK) : new ResponseEntity(HttpStatus.NO_CONTENT);
         return r;
 
     }
@@ -37,13 +37,13 @@ public class NamingServerController {
         return this.namingServerService.getFileLocation(fileName);
     }
 
-    @RequestMapping (value = "/leave", method = RequestMethod.POST)
+    @RequestMapping (value = "/leave", method = RequestMethod.GET)
     public ResponseEntity<String> nodeLeave(@RequestParam(value = "id") String nodeId, @RequestParam(value = "lower") String lowerID,
                                                     @RequestParam(value = "upper") String upperID){
 
         ArrayList<String> neighbours = namingServerService.leave(nodeId, lowerID, upperID);
 
-        ResponseEntity r = (neighbours != null) ? new ResponseEntity(neighbours, HttpStatus.OK) : new ResponseEntity(HttpStatus.NOT_FOUND);
+        ResponseEntity r = (neighbours != null) ? new ResponseEntity(neighbours, HttpStatus.OK) : new ResponseEntity(HttpStatus.NO_CONTENT);
         return r;
     }
 
