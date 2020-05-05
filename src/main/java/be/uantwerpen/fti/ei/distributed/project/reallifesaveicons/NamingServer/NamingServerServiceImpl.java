@@ -105,6 +105,7 @@ public class NamingServerServiceImpl implements NamingServerService {
             logger.info("Adding new node to network: " + hash(ip) + " : " + ip);
 
             try {
+                logger.info(String.valueOf(keys.size()));
                 httpClient.putHTTP(ip, "/bootstrap?namingip=" + InetAddress.getLocalHost().getHostAddress() + "&nodes=" + keys.size());
                 synchronized (this) {
                     map.put(hash(ip), ip);
