@@ -58,13 +58,13 @@ public class MulticastListener {
             s.joinGroup(group);
             logger.info("Socket is opened");
 
-
-            byte[] buf = new byte[32768];
-            DatagramPacket recv = new DatagramPacket(buf, buf.length);
-
             while (this.isRunning) {
 
                 logger.debug("Loop entered");
+
+                byte[] buf = new byte[32768];
+                DatagramPacket recv = new DatagramPacket(buf, buf.length);
+
                 s.receive(recv);
                 String input = new String(recv.getData());
                 logger.debug("Received: " + input);
