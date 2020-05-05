@@ -52,7 +52,7 @@ public class NamingServerServiceImpl implements NamingServerService {
         //The check if all the nodes exist
         for (int i = 0; i < 3; i++) {
             if (!keys.contains(ids[i])) {
-                logger.debug("At least one node is not in the map!");
+                logger.info("At least one node is not in the map!");
                 return null;
             }
         }
@@ -71,13 +71,13 @@ public class NamingServerServiceImpl implements NamingServerService {
         Set<Integer> keys = map.keySet();
         while (id >= 0) {
             if (keys.contains(id)) {
-                logger.debug("Resulting ID: " + id + " with ip: " + map.get(id));
+                logger.info("Resulting ID: " + id + " with ip: " + map.get(id));
                 return map.get(id);
             }
             id--;
         }
         id = Collections.max(keys);
-        logger.debug("No lowerid! Resulting ID: " + id + " with ip: " + map.get(id));
+        logger.info("No lowerid! Resulting ID: " + id + " with ip: " + map.get(id));
         return map.get(id);
     }
 
