@@ -56,7 +56,7 @@ public class NamingServerServiceImpl implements NamingServerService {
                 return null;
             }
         }
-        ArrayList<String> neighbours = new ArrayList<>(Arrays.asList(map.get(ids[1]),map.get(ids[2])));
+        ArrayList<String> neighbours = new ArrayList<>(Arrays.asList(map.get(ids[1]), map.get(ids[2])));
 
         logger.info("Deleting node from network: " + map.get(ids[0]));
         map.remove(ids[0]);
@@ -99,19 +99,18 @@ public class NamingServerServiceImpl implements NamingServerService {
         int id = hash(ip);
         if (keys.contains(id)) {
             logger.info("Node" + ip + " already exists!");
+            httpClient.putHTTP(ip, "Node already exists!");
             return false;
         } else {
             logger.info("Adding new node to network: " + hash(ip) + " : " + ip);
 
             try {
-                httpClient.putHTTP(ip, "/bootstrap?namingip=" + InetAddress.getLocalHost().getHostAddress() + "&nodes=" +keys.size());
+                httpClient.putHTTP(ip, "/bootstrap?namingip=" + InetAddress.getLocalHost().getHostAddress() + "&nodes=" + keys.size());
                 synchronized (this) {
                     map.put(hash(ip), ip);
                 }
             } catch (UnknownHostException e) {
                 logger.info(e.toString());
-            } catch (Exception e) {
-                logger.debug(e.toString());
             }
             return true;
         }
