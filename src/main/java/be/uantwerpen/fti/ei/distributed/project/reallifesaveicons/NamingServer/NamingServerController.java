@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Map;
 
 @RestController
 public class NamingServerController {
@@ -29,12 +29,14 @@ public class NamingServerController {
 
         ResponseEntity r = (node != null) ? new ResponseEntity(node, HttpStatus.OK) : new ResponseEntity(HttpStatus.NO_CONTENT);
         return r;
-
     }
 
     @RequestMapping(value = "/fileLocation", method = RequestMethod.GET)
-    public String requestFileLocation(@RequestParam(value = "filename") String fileName) {
-        return this.namingServerService.getFileLocation(fileName);
+    public ResponseEntity<String> requestFileLocation(@RequestParam(value = "filename") String fileName) {
+
+        String location = this.namingServerService.getFileLocation(fileName);
+        ResponseEntity r = (location != null) ? new ResponseEntity(location, HttpStatus.OK) : new ResponseEntity(HttpStatus.NO_CONTENT);
+        return r;
     }
 
     @RequestMapping (value = "/leave", method = RequestMethod.GET)
@@ -44,6 +46,16 @@ public class NamingServerController {
         ArrayList<String> neighbours = namingServerService.leave(nodeId, lowerID, upperID);
 
         ResponseEntity r = (neighbours != null) ? new ResponseEntity(neighbours, HttpStatus.OK) : new ResponseEntity(HttpStatus.NO_CONTENT);
+        return r;
+    }
+
+    //Network management (admin methods)
+    @RequestMapping(value = "allnodes", method = RequestMethod.GET)
+    public ResponseEntity<String> allNodes(){
+
+        Map<Integer,String> nodes = namingServerService.getAll();
+
+        ResponseEntity r = (!nodes.isEmpty()) ? new ResponseEntity(nodes, HttpStatus.OK) : new ResponseEntity(HttpStatus.NO_CONTENT);
         return r;
     }
 

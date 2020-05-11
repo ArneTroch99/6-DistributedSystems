@@ -26,11 +26,10 @@ public class NamingServerServiceImpl implements NamingServerService {
     @Autowired
     public NamingServerServiceImpl(HTTPClient httpClient) {
 
-        /*//DEBUG!!!!!
-        map.put(10, "192.168.0.1");
+        //Debug values!!!
+        /*map.put(10, "192.168.0.1");
         map.put(20, "192.168.0.2");
-        map.put(30, "192.168.0.3");
-        // END DEBUG*/
+        map.put(30, "192.168.0.3");*/
 
         this.httpClient = httpClient;
     }
@@ -69,6 +68,9 @@ public class NamingServerServiceImpl implements NamingServerService {
         int id = hash(fileName);
         System.out.println("File hash: " + id);
         Set<Integer> keys = map.keySet();
+        if (keys.isEmpty()){                    //No node in the network
+            return null;
+        }
         while (id >= 0) {
             if (keys.contains(id)) {
                 logger.info("Resulting ID: " + id + " with ip: " + map.get(id));
@@ -79,6 +81,12 @@ public class NamingServerServiceImpl implements NamingServerService {
         id = Collections.max(keys);
         logger.info("No lowerid! Resulting ID: " + id + " with ip: " + map.get(id));
         return map.get(id);
+    }
+
+    //Admin methods
+    @Override
+    public Map<Integer,String> getAll(){
+        return this.map;
     }
 
     //This method is called by the multicastListener, not the REST controller!

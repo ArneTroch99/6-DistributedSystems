@@ -1,22 +1,14 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
-    <link rel="stylesheet" href="../static/css/homepage.css" th:href="@{/css/homepage.css}"/>
+    <div th:replace="header :: myheader"></div>
 </head>
-<body>
 
-    <ul>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/">Home</a></li>
-        <li sec:authorize="hasRole('ROLE_ADMIN')"><a sec:authorize="hasRole('ROLE_ADMIN')" href="/admin/home">Manage</a></li>
-        <li sec:authorize="isAuthenticated()"><a sec:authorize="isAuthenticated()" href="/user/home">Access files</a></li>
-        <li><a sec:authorize="isAuthenticated()" href="/logout">Logout</a></li>
-    </ul>
+<body>
 
     <h1>Real life save icons</h1>
 
