@@ -13,7 +13,7 @@ class FileServer{
 
 	
 	private void openConnection(String request, String method) {
-
+		//Testje
 		try{
 			URL url = new URL(request);
 			con = (HttpURLConnection) url.openConnection();
