@@ -47,26 +47,4 @@ public class NamingServerController {
         return r;
     }
 
-
-    /*@RequestMapping(value = "/deleteNode", method = RequestMethod.DELETE)
-    public ResponseEntity deleteNode(@RequestParam(value = "ip", required = false, defaultValue = "") String ipAddress,
-                                     HttpServletRequest request) {
-        boolean worked;
-        if (ipAddress.equals("")) {
-            worked = this.namingServerService.deleteNode(request.getRemoteAddr());
-        } else {
-            worked = this.namingServerService.deleteNode(ipAddress);
-        }
-        if (worked) {
-            return new ResponseEntity(HttpStatus.OK);
-        } else {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("A node with that IP does not exist!");
-        }
-    }*/
-
-
-
-    /*@RequestMapping(value = "/shutDown", method = RequestMethod.DELETE)
-    public void shutDown(@RequestParam value =  "ip", required =)*/
-
 }
