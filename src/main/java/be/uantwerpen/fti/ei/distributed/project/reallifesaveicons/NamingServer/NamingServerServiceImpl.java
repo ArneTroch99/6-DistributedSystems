@@ -27,9 +27,9 @@ public class NamingServerServiceImpl implements NamingServerService {
     public NamingServerServiceImpl(HTTPClient httpClient) {
 
         //Debug values!!!
-        map.put(10, "192.168.0.1");
+        /*map.put(10, "192.168.0.1");
         map.put(20, "192.168.0.2");
-        map.put(30, "192.168.0.3");
+        map.put(30, "192.168.0.3");*/
 
         this.httpClient = httpClient;
     }
