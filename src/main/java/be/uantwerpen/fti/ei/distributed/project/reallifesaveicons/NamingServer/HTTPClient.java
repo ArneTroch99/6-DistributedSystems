@@ -20,13 +20,13 @@ public class HTTPClient {
     }
 
     public void putHTTP(String ip, String data){
-        String url = "http://" + ip + ":8081/" + data;
+        String url = "http://" + ip + ":8082/" + data;
         logger.info(url);
         restTemplate.put(url, String.class);
     }
 
     public ResponseEntity<String> getHTTP(String ip, String data){
-        String url = "http://" + ip + ":8081/" + data;
+        String url = "http://" + ip + ":8082/" + data;
         return restTemplate.getForEntity(url, String.class);
     }
 }
